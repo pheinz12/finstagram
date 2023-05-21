@@ -15,6 +15,7 @@ get '/signup' do     # if a user navigates to the path "/signup",
   @user = User.new   # setup empty @user object
   erb(:signup)       # render "app/views/signup.erb"
 end
+
 post '/signup' do
   email      = params[:email]
   avatar_url = params[:avatar_url]
@@ -29,3 +30,21 @@ post '/signup' do
     erb(:signup)
   end
 end
+
+get '/finstagram_posts/new' do
+    erb(:"finstagram_posts/new")
+end
+
+post '/finstagram_posts' do
+  photo_url = params[:photo_url]
+
+  @finstagram_post = FinstagramPost.new({ photo_url: photo_url })
+
+  if @finstagram_post.save
+    redirect(to('/'))
+  else
+
+    @finstagram_post.errors.full_messages.inspect
+  end
+end
+  
